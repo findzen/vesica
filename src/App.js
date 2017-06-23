@@ -36,11 +36,8 @@ class App extends Component {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     this.audioContext = new AudioContext();
 
-    this.analyzer = this.audioContext.createAnalyser();
-    this.analyzer.fftSize = 2048;
-
-    this.left = this.createTone();
-    this.right = this.createTone();
+    this.left = this.createTone(-1);
+    this.right = this.createTone(1);
 
     this.state = {
       beat: null,
@@ -63,9 +60,8 @@ class App extends Component {
     }, false);
   }
 
-  createTone() {
-    let tone = new Tone({ audioContext: this.audioContext });
-    tone.osc.connect(this.analyzer);
+  createTone(pan) {
+    let tone = new Tone({ audioContext: this.audioContext, pan: pan });
 
     return tone;
   }

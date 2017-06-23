@@ -7,8 +7,12 @@ class Tone {
   constructor(props = {}) {
     this.audioContext = props.audioContext || new AudioContext();
 
+    this.panner = this.audioContext.createStereoPanner();
+    this.panner.connect(this.audioContext.destination);
+    this.panner.pan.value = props.pan || 0;
+
     this.gain = this.audioContext.createGain();
-    this.gain.connect(this.audioContext.destination);
+    this.gain.connect(this.panner);
     this.gain.gain.value = MIN_VOLUME;
 
     this.osc = this.audioContext.createOscillator();
